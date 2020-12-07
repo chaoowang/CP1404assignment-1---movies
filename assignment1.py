@@ -18,8 +18,6 @@ def main():
     movie_list = []
     number_of_line = 0
     movie_index = 0
-    movie_to_watch = 0
-    movie_watched = 0
 
     lines = movie_file.readlines()
     for line in lines:
@@ -50,14 +48,14 @@ def main():
     while menu_choice != "q":
         if menu_choice == "l":
             movie_to_watch = 0
-            movie_watched = 0
+            num_movie_watched = 0
             for line in movie_list:
                 print("{}. {} {:<35} - {:>4} ({})".format(line[0], line[4], line[1], line[2], line[3]))
                 if line[4] == "*":
                     movie_to_watch += 1
                 else:
-                    movie_watched += 1
-            print("{} movies watched, {} movies still to watch".format(movie_watched, movie_to_watch))
+                    num_movie_watched += 1
+            print("{} movies watched, {} movies still to watch".format(num_movie_watched, movie_to_watch))
 
         elif menu_choice == "a":
             # TODO: add movie including Title, Year, Category
@@ -84,7 +82,20 @@ def main():
             movie_index+=1
 
         elif menu_choice == "w":
-            print("Watch a movie")
+            movie_watched=input("Enter the number of movie to mark as watched")
+            while not movie_watched.isdigit():
+                print("Invalid input; enter a valid number")
+                movie_watched=input("Enter the number of movie to mark as watched")
+            while int(movie_watched)>=len(movie_list):
+                print("Invalid movie number")
+                movie_watched=input("Enter the number of movie to mark as watched")
+            for movie in movie_list:
+                if int(movie_watched)==movie[0]:
+                    if movie[4]==" ":
+                        print("You have already watched {}".format(movie[1]))
+                    else:
+                        print("{} from {} watched".format(movie[1],movie[2]))
+                        movie[4]=" "
             # TODO: mark movie as watched
         print(menu)
         menu_choice = input("")
