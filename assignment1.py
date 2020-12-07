@@ -35,17 +35,15 @@ def main():
         movie_index += 1
 
     print("{} movies loaded".format(number_of_line))
-    print(movie_list)
 
     print(menu)
     menu_choice = input("").lower()
 
-    while menu_choice != "l" and menu_choice != "a" and menu_choice != "w" and menu_choice != "q":
-        print("Invalid menu choice")
-        print(menu)
-        menu_choice = input("")
-
     while menu_choice != "q":
+        while menu_choice not in ["l", "a", "w","q"]:
+            print("Invalid menu choice")
+            print(menu)
+            menu_choice = input("")
         if menu_choice == "l":
             movie_to_watch = 0
             num_movie_watched = 0
@@ -56,7 +54,8 @@ def main():
                 else:
                     num_movie_watched += 1
             print("{} movies watched, {} movies still to watch".format(num_movie_watched, movie_to_watch))
-
+            print(menu)
+            menu_choice = input("")
         elif menu_choice == "a":
             # TODO: add movie including Title, Year, Category
             movie_title = input("Title:")
@@ -80,7 +79,8 @@ def main():
 
             movie_list.append([movie_index, movie_title, movie_year, movie_category, "*"])
             movie_index+=1
-
+            print(menu)
+            menu_choice = input("")
         elif menu_choice == "w":
             movie_watched=input("Enter the number of movie to mark as watched")
             while not movie_watched.isdigit():
@@ -96,9 +96,10 @@ def main():
                     else:
                         print("{} from {} watched".format(movie[1],movie[2]))
                         movie[4]=" "
-            # TODO: mark movie as watched
-        print(menu)
-        menu_choice = input("")
+            print(menu)
+            menu_choice = input("")
+        elif menu_choice=="q":
+            pass
     print("Quit")
     # TODO: save movie.csv
 
