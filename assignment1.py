@@ -43,7 +43,7 @@ def main():
         while menu_choice not in ["l", "a", "w","q"]:
             print("Invalid menu choice")
             print(menu)
-            menu_choice = input("")
+            menu_choice = input("").lower()
         if menu_choice == "l":
             movie_to_watch = 0
             num_movie_watched = 0
@@ -55,7 +55,8 @@ def main():
                     num_movie_watched += 1
             print("{} movies watched, {} movies still to watch".format(num_movie_watched, movie_to_watch))
             print(menu)
-            menu_choice = input("")
+            menu_choice = input("").lower()
+
         elif menu_choice == "a":
             # TODO: add movie including Title, Year, Category
             movie_title = input("Title:")
@@ -68,6 +69,7 @@ def main():
                 print("Invalid input; enter a valid number")
                 movie_year = input("Year:")
             while int(movie_year) < 0:
+            #TODO: error checking for negative number
                 print("Number must be >=0")
                 movie_year = input("Year:")
             movie_year = int(movie_year)
@@ -78,17 +80,22 @@ def main():
                 movie_category = input("Category")
 
             movie_list.append([movie_index, movie_title, movie_year, movie_category, "*"])
+            print("{} ({} from {}) added to movie list".format(movie_title,movie_category,movie_year))
             movie_index+=1
+            #TODO: resort movies after new movie added
             print(menu)
-            menu_choice = input("")
+            menu_choice = input("").lower()
         elif menu_choice == "w":
-            movie_watched=input("Enter the number of movie to mark as watched")
+            #TODO: print no more movies to watch when no more movies to watch
+            print("Enter the number of movie to mark as watched")
+            movie_watched=input()
             while not movie_watched.isdigit():
+                #TODO: error checking for negative number
                 print("Invalid input; enter a valid number")
-                movie_watched=input("Enter the number of movie to mark as watched")
+                movie_watched=input("")
             while int(movie_watched)>=len(movie_list):
                 print("Invalid movie number")
-                movie_watched=input("Enter the number of movie to mark as watched")
+                movie_watched=input("")
             for movie in movie_list:
                 if int(movie_watched)==movie[0]:
                     if movie[4]==" ":
@@ -97,7 +104,7 @@ def main():
                         print("{} from {} watched".format(movie[1],movie[2]))
                         movie[4]=" "
             print(menu)
-            menu_choice = input("")
+            menu_choice = input("").lower()
         elif menu_choice=="q":
             pass
     print("Quit")
