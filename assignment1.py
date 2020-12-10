@@ -101,13 +101,22 @@ def main():
             #TODO: print no more movies to watch when no more movies to watch
             print("Enter the number of movie to mark as watched")
             movie_watched=input()
-            while not movie_watched.isdigit():
-                #TODO: error checking for negative number
-                print("Invalid input; enter a valid number")
-                movie_watched=input("")
-            while int(movie_watched)>=len(movie_list):
-                print("Invalid movie number")
-                movie_watched=input("")
+            watched_check=False
+            while watched_check==False:     #error checking for movie number watched
+                try:
+                    movie_watched=int(movie_watched)
+                    if movie_watched>=len(movie_list):
+                        print("Invalid movie number")
+                        movie_watched=input()
+                    elif movie_watched<0:
+                        print("Number must be >= 0")
+                        movie_watched=input()
+                    else:
+                        watched_check=True
+                except ValueError:
+                    print("Invalid input; enter a valid number")
+                    movie_watched=input()
+
             for movie in movie_list:
                 if int(movie_watched)==movie[0]:
                     if movie[4]==" ":
