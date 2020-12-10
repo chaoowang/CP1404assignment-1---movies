@@ -22,15 +22,15 @@ def main():
     lines = movie_file.readlines()
     for line in lines:
         movie = line.split(",")
-        movie[1] = int(movie[1])
+        movie[1] = int(movie[1])        #convert year in int
         if movie[3] == "u\n":
-            movie[3] = "*"  # "*"=to watch; " "=watched
+            movie[3] = "*"              # "*"=to watch; " "=watched
         else:
             movie[3] = " "
         movie_list.append(movie)
-        number_of_line += 1
+        number_of_line += 1             #count how many movies loaded
     movie_list.sort(key=itemgetter(1, 2))
-    for movie in movie_list:
+    for movie in movie_list:            #add movie number
         movie.insert(0, movie_index)
         movie_index += 1
 
@@ -49,7 +49,7 @@ def main():
             num_movie_watched = 0
             for line in movie_list:
                 print("{}. {} {:<35} - {:>4} ({})".format(line[0], line[4], line[1], line[2], line[3]))
-                if line[4] == "*":
+                if line[4] == "*":         #count how many movies watched and how many to watch
                     movie_to_watch += 1
                 else:
                     num_movie_watched += 1
@@ -60,22 +60,26 @@ def main():
         elif menu_choice == "a":
             # TODO: add movie including Title, Year, Category
             movie_title = input("Title:")
-            while movie_title == "":
+            while movie_title == "":            #error checking for title
                 print("Input can not be blank")
                 movie_title = input("Title:")
 
             movie_year = input("Year:")
-            while not movie_year.isdigit():
-                print("Invalid input; enter a valid number")
-                movie_year = input("Year:")
-            while int(movie_year) < 0:
-            #TODO: error checking for negative number
-                print("Number must be >=0")
-                movie_year = input("Year:")
-            movie_year = int(movie_year)
+            year_check=False
+            while year_check==False:        #error checking for year
+                try:
+                    movie_year=int(movie_year)
+                    if movie_year < 0:
+                        print("Number must be >= 0")
+                        movie_year=input("Year:")
+                    else:
+                        year_check = True
+                except ValueError:
+                    print("Invalid input; enter a valid number")
+                    movie_year=input("Year:")
 
             movie_category = input("Category:")
-            while movie_category == "":
+            while movie_category == "":         #error checking for category
                 print("Input can not be blank")
                 movie_category = input("Category")
 
