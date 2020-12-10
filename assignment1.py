@@ -7,22 +7,22 @@ GitHub URL: https://github.com/JCUS-CP1404/assignment-1---movies-chaoowang
 
 from operator import itemgetter
 
-menu = "Menu:\nL - List movies\nA - Add movies\nW - Watch a movie\nQ - Quit"
+menu = "Menu:\nL - List movies\nA - Add new movie\nW - Watch a movie\nQ - Quit"
 
 
 def main():
     print("Movies To Watch 1.0 - by Chao-Hsuan Wang")
 
-    movie_file = open("movies.csv", "r+")
+    movie_file = open("movies.csv", "r+")   #open movie for read and write
 
     movie_list = []
     number_of_line = 0
     movie_index = 0
 
-    lines = movie_file.readlines()
+    lines = movie_file.readlines()         #read all lines in movie file
     for line in lines:
         movie = line.split(",")
-        movie[1] = int(movie[1])        #convert year in int
+        movie[1] = int(movie[1])        #convert year into int
         if movie[3] == "u\n":
             movie[3] = "*"              # "*"=to watch; " "=watched
         else:
@@ -40,11 +40,11 @@ def main():
     menu_choice = input("").lower()
 
     while menu_choice != "q":
-        while menu_choice not in ["l", "a", "w","q"]:
+        while menu_choice not in ["l", "a", "w","q"]:   #error checking for menu choice
             print("Invalid menu choice")
             print(menu)
             menu_choice = input("").lower()
-        if menu_choice == "l":
+        if menu_choice == "l":      #list movies
             movie_to_watch = 0
             num_movie_watched = 0
             for line in movie_list:
@@ -57,8 +57,7 @@ def main():
             print(menu)
             menu_choice = input("").lower()
 
-        elif menu_choice == "a":
-            # TODO: add movie including Title, Year, Category
+        elif menu_choice == "a":        #add new movie including: title, year, category
             movie_title = input("Title:")
             while movie_title == "":            #error checking for title
                 print("Input can not be blank")
@@ -83,13 +82,22 @@ def main():
                 print("Input can not be blank")
                 movie_category = input("Category")
 
-            movie_list.append([movie_index, movie_title, movie_year, movie_category, "*"])
+            movie_list.append([movie_index, movie_title, movie_year, movie_category, "*"]) #add new movie to movie list
             print("{} ({} from {}) added to movie list".format(movie_title,movie_category,movie_year))
             movie_index+=1
-            #TODO: resort movies after new movie added
+
+            for movie in movie_list:                #reorder movies after new movie added
+                movie.pop(0)                        #remove old movie number
+            movie_list.sort(key=itemgetter(1, 2))   #resort movies
+            new_index=0
+            for movie in movie_list:                #add new new movie number
+                movie.insert(0,new_index)
+                new_index+=1
+
             print(menu)
             menu_choice = input("").lower()
-        elif menu_choice == "w":
+
+        elif menu_choice == "w":        #watch a movie
             #TODO: print no more movies to watch when no more movies to watch
             print("Enter the number of movie to mark as watched")
             movie_watched=input()
