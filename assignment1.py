@@ -166,7 +166,7 @@ def load_file(movie_file):
             movie[3] = " "
         movie_list.append(movie)
         number_of_line += 1  # count how many movies loaded
-    movie_list.sort(key=itemgetter(1, 2))
+    movie_list.sort(key=itemgetter(1, 2)) #sort movie by year then by title
     for movie in movie_list:  # add movie number
         movie.insert(0, movie_index)
         movie_index += 1
