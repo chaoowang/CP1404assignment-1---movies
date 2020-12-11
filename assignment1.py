@@ -13,12 +13,12 @@ MENU = "Menu:\nL - List movies\nA - Add new movie\nW - Watch a movie\nQ - Quit"
 def main():
     print("Movies To Watch 1.0 - by Chao-Hsuan Wang")
 
-    movie_file = open("movies.csv", "r+")  # open movie for read and write
-
-    movie_index, movie_list, number_of_line = load_file(movie_file)  # load file
+    read_movie_file = open("movies.csv", "r")  # open movie to read
+    movie_index, movie_list, number_of_line = load_file(read_movie_file)  # load file
+    read_movie_file.close()
     print("{} movies loaded".format(number_of_line))
 
-    movie_to_watch, num_movie_watched = count_movies_watch(movie_list)
+    movie_to_watch, num_movie_watched = count_movies_watch(movie_list)  # count how many movies watched/unwatched
 
     print(MENU)
     menu_choice = input("").lower()
@@ -47,22 +47,23 @@ def main():
             pass
         movie_to_watch, num_movie_watched = count_movies_watch(movie_list)
 
-    save_to_file(movie_file, movie_list)
-    movie_file.close()
+    output_movie_file = open("movies.csv", "w")
+    save_to_file(output_movie_file, movie_list)
+    output_movie_file.close()
 
     print("{} movies saved to movies.csv".format(len(movie_list)))
     print("Have a nice day :)")
 
 
-def save_to_file(movie_file, movie_list):
+def save_to_file(output_movie_file, movie_list):
     for movie in movie_list:
         movie.pop(0)
         if movie[3] == "*":  # "*"=unwatch; " "=watched
             movie[3] = "u"
         else:
             movie[3] = "w"
-        movie_info=movie[0]+","+str(movie[1])+","+movie[2]+","+movie[3]
-        print(movie_info, file=movie_file)
+        movie_info = movie[0] + "," + str(movie[1]) + "," + movie[2] + "," + movie[3]
+        print(movie_info, file=output_movie_file)
 
 
 def watch_a_movie(movie_list, movie_to_watch):
@@ -159,7 +160,7 @@ def load_file(movie_file):
     for line in lines:
         movie = line.split(",")
         movie[1] = int(movie[1])  # convert year into int
-        if movie[3] == "u\n" or movie[3]=="u":
+        if movie[3] == "u\n" or movie[3] == "u":
             movie[3] = "*"  # "*"=unwatch; " "=watched
         else:
             movie[3] = " "
